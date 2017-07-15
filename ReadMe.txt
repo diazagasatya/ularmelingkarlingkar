@@ -2,13 +2,17 @@
 
 Description: 
 This is a First Optimization Machine Learning
-	- Linear Regression
+	- Linear Regression (Different types of Gradient Descents)
 	- Decision Tree Classifier
 
 Linear Regression - ML 1/Google Stock Prediction 7/16-7/17
-	- A rough prediction of Google adjusted price between July16’-17’
-	- The implementation of Gradient Descent, Sum of Errors, Partial Derivative
-	- Also consist the data as a cvs file
+	- There are 3 different methods of Gradient Descents available
+	- /Gradient Descent : Calculate GD with the sum of training data
+	- /Stochastic Gradient Descent: Calculate GD for every training data
+	- /Mini-Batch GD: Calculate GD for every mini batch of training data
+		- A rough prediction of Google adjusted price between July16’-17’
+		- The implementation of Gradient Descent, Sum of Errors, Partial Derivative
+		- Also consist the data as a cvs file
 
 Linear Regression - ML 1/Animal Weight Predictor given Brain Weight
 	- A prediction machine learner of an Animal’s weight given its brain weight
