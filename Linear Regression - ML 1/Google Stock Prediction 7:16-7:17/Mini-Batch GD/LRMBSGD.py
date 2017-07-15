@@ -62,6 +62,7 @@ def sumOfErrorEquation(m,b,data):
 #What do we need? the current 'm' and 'b' to know which is our current fitting line. the real data = target
 #it will return the new 'BETTER' and updated m and b
 def gradientDescent(m,b,data,learningRate):
+	numInstance = len(data)
 	N = numInstance
 	m_grad = 0
 	b_grad = 0
@@ -89,27 +90,30 @@ def gradientDescent(m,b,data,learningRate):
 #Define the number of iterations that you want the model to be train to to reach its optimal f(x)
 #Every time-step it will modify m and b until it reaches its minimal gradient descent
 #Display each timestep and print it to the console to see the error decreasing over time
+#Remember: in mini batch, this will grab N number of mini-batch until it reach the end of dataset & update param
 def gradientDescentNSteps(starting_m,starting_b,data,iteration,learningRate):
 	print('Starting line: y = %.6fx + %.6f - Error: %.6f\n' % 
 		(starting_m,starting_b,sumOfErrorEquation(starting_m,starting_m,data)))
 	m = starting_m
 	b = starting_b
 	display_freq = iteration
+	batch_number = 0
 	#train the model how many steps to get the optimal m and b
 	for i in range(iteration):
 		np.random.shuffle(data)
 		for batch in get_batches(data,batch_size=50):
-			m,b = gradientDescent(m,b,data,learningRate)
+			m,b = gradientDescent(m,b,batch,learningRate)
+			batch_number += 1
 			if(i % display_freq >= 0):
 				sse = sumOfErrorEquation(m,b,data)
-				print('At step %d - Line: y = %.2fx + %.2f - Error: %.2f' %(i+1,m,b,sse))
+				print('At step %d - Random Batch %d - Line: y = %.2fx + %.2f - Error: %.2f' %(i+1,batch_number,m,b,sse))
 
 	print('\nBest line: y = %.2fx + %.2f - Error: %.2f' %(m,b,sse))
 	return m,b
 
 def get_batches(data,batch_size):
-	for i in range(batch_size):
-		batch = data[i,0],data[i,1]
+	for i in np.arange(0,data.shape[0],batch_size):
+		batch = yield(data[i:i + batch_size])
 
 	return batch
 
@@ -118,7 +122,7 @@ def main():
 	#Lets do 10 steps of Gradient Descent from main
 	M_STARTING = 0
 	B_STARTING = 0
-	ITERATIONS = 1000
+	ITERATIONS = 50
 	learningRate = 0.000001
 
 	m_best,b_best = gradientDescentNSteps(M_STARTING,B_STARTING,data,ITERATIONS,learningRate)
