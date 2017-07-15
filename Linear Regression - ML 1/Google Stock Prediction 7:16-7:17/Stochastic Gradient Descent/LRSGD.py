@@ -95,14 +95,16 @@ def gradientDescentNSteps(starting_m,starting_b,data,iteration,learningRate):
 	m = starting_m
 	b = starting_b
 	display_freq = iteration
+	random_line = 0
 	#train the model how many steps to get the optimal m and b
 	for i in range(iteration):
 		np.random.shuffle(data)
 		for example in data:
 			m,b = gradientDescent(m,b,data,learningRate)
+			random_line += 1
 			if(i % display_freq >= 0):
 				sse = sumOfErrorEquation(m,b,data)
-				print('At step %d - Line: y = %.2fx + %.2f - Error: %.2f' %(i+1,m,b,sse))
+				print('At step %d - Random Line %d Line: y = %.2fx + %.2f - Error: %.2f' %(i+1,random_line,m,b,sse))
 
 	print('\nBest line: y = %.2fx + %.2f - Error: %.2f' %(m,b,sse))
 	return m,b
@@ -112,7 +114,7 @@ def main():
 	#Lets do 10 steps of Gradient Descent from main
 	M_STARTING = 0
 	B_STARTING = 0
-	ITERATIONS = 100
+	ITERATIONS = 10
 	learningRate = 0.000001
 
 	m_best,b_best = gradientDescentNSteps(M_STARTING,B_STARTING,data,ITERATIONS,learningRate)
